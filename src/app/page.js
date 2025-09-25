@@ -95,7 +95,7 @@ export default function UnderConstruction() {
             Something amazing is coming soon!
           </p>
           <p className="text-gray-500 dark:text-gray-400 animate-fade-in-up animation-delay-200">
-            We're working hard to bring you an incredible experience.
+            Mahi Singh is working on it 
           </p>
         </div>
 
