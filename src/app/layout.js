@@ -2,6 +2,9 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { siteConfig, generateMetadata } from "../lib/seo";
+import Script from "next/script";
+import { GA_TRACKING_ID } from "../lib/gtag";
+import GAClientTracker from "./ga-tracker";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -43,6 +46,22 @@ export default function RootLayout({ children }) {
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
         <link rel="manifest" href="/site.webmanifest" />
         <meta name="theme-color" content="#2563eb" />
+        {GA_TRACKING_ID ? (
+          <>
+            <Script
+              src={`https://www.googletagmanager.com/gtag/js?id=${GA_TRACKING_ID}`}
+              strategy="afterInteractive"
+            />
+            <Script id="gtag-init" strategy="afterInteractive">
+              {`
+                window.dataLayer = window.dataLayer || [];
+                function gtag(){dataLayer.push(arguments);} 
+                gtag('js', new Date());
+                gtag('config', '${GA_TRACKING_ID}', { send_page_view: false });
+              `}
+            </Script>
+          </>
+        ) : null}
         
         {/* Geo Tags for Local SEO */}
         <meta name="geo.region" content="IN-PB" />
@@ -57,6 +76,7 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        {GA_TRACKING_ID ? <GAClientTracker /> : null}
         {children}
       </body>
     </html>
