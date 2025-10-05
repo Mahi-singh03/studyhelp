@@ -2,6 +2,7 @@
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { siteConfig, generateMetadata } from "../lib/seo";
+import { Suspense } from "react";
 import Script from "next/script";
 import { GA_TRACKING_ID } from "../lib/gtag";
 import GAClientTracker from "./ga-tracker";
@@ -76,7 +77,11 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        {GA_TRACKING_ID ? <GAClientTracker /> : null}
+        {GA_TRACKING_ID ? (
+          <Suspense fallback={null}>
+            <GAClientTracker />
+          </Suspense>
+        ) : null}
         {children}
       </body>
     </html>
